@@ -1,4 +1,4 @@
 please use:
 
-- bootstrap-mgmt-rpm.sh for RHEL / CentOS / Fedora
-- bootstrap-mgmt-deb.sh for Debian / Ubuntu
+- <strong>bootstrap-mgmt-rpm.sh</strong> for RHEL / CentOS / Fedora
+- <strong>bootstrap-mgmt-deb.sh</strong> for Debian / Ubuntu
