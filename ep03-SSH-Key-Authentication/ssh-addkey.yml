@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: yes
+  become_method: "sudo"
+  gather_facts: no
+  remote_user: bkalem
+
+  tasks:
+
+  - name: install ssh key
+    authorized_key: user=bkalem 
+                    key="{{ lookup('file', '/home/bkalem/.ssh/id_rsa.pub') }}" 
+                    state=present
