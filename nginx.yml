@@ -1,0 +1,35 @@
+---
+- hosts: web
+  gather_facts: no
+  become: yes
+  become_method: "sudo"
+  remote_user: bkalem
+
+  tasks:
+  
+  - name: add nginx repository
+    yum:
+      name: http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+      state: present
+      
+  - name: installation nginx
+    yum:
+      name: nginx
+      state: present
+
+  - name: start enable nginx
+    systemd:
+          name: nginx
+          state: started
+          enabled: yes
+
+  - name: open port http on firewalld
+    firewalld:
+            service: http
+            permanent: true
+            state: enabled
+            
+  - name: reload firewalld
+    systemd:
+          name: firewalld
+          state: reloaded
