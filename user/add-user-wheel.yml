@@ -1,0 +1,30 @@
+---
+- hosts: all
+  become: yes
+  become_method: "sudo"
+  gather_facts: no
+  remote_user: bkalem
+
+  vars:
+    # python -c 'import crypt; print crypt.crypt("student", "$6$wM59EavB")'
+    user_name: ansible
+    user_pass: "$6$wM59EavB$2l4iIB/OUe1i9mu38mv895RmNIbjMGM/tk/HoCHld4T7tXyNQCSVpzR9hcSWRZHK70YIor.l80y5rRDKsxip/0"
+
+  tasks:
+
+  - name: Ensuring that wheel is able to use sudo without password
+    lineinfile:
+      path: /etc/sudoers
+      regexp: '^%wheel'
+      line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+      validate: 'visudo -cf %s'
+
+  - name: add student on wheel sudoers group
+    user: 
+      name: "{{ user_name }}"
+      groups: wheel
+      append: yes
+      state: present
+      createhome: yes
+      update_password: always
+      password: "{{ user_pass }}"
